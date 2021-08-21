@@ -1,4 +1,4 @@
-![example workflow](https://github.com/ignacy/coco_mingler/actions/workflows/pre-commit/badge.svg)
+![example workflow](https://github.com/ignacy/coco_mingler/actions/workflows/pre-commit.yml/badge.svg)
 
 ### COCO Mingler
 
