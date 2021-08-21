@@ -1,0 +1,4 @@
+outs:
+- md5: 1e46f936a4c91a23ebf591bdbd03e207
+  size: 112648466
+  path: instances_minitrain2017.json
