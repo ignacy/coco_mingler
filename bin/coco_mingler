@@ -1,0 +1,3 @@
+#!/bin/bash
+
+PYTHONPATH=$COCO_MINGLER_HOME python -m coco_mingler $@
