@@ -1,4 +1,6 @@
 from coco_mingler.parser import Parser
+from coco_mingler.annotations import Annotations
+from coco_mingler.licenses import Licenses
 
 from coco_mingler.exceptions import InvalidArgumentError
 import logging, getopt, os, json
@@ -34,24 +36,20 @@ def main(argv=None):
         print(e)
         return 2
 
-    annotations_dict = {}
-    for annotation in data['annotations']:
-        annotations_dict[annotation['image_id']] = annotation
-    
-    licenses_dict = {}
-    for license in data['licenses']:
-        licenses_dict[license['id']] = license
-
+    # Build dictionaries for annotations and licenses so we don't 
+    # have to traverse those collections looking for ID every time
+    annotations = Annotations(data['annotations'])
+    licenses = Licenses(data['licenses'])
 
     os.makedirs('tmp/images', exist_ok=True)
 
     for image in data['images']:
         image_out = {}
         image_out['info'] = data['info']
-        image_out['categories'] = data['categories']
+        image_out['categories'] = data['categories'] # TODO scrap unused categories
         image_out['images'] = [image]
-        image_out['annotations'] = [annotations_dict[image['id']]]
-        image_out['licenses'] = licenses_dict[image['license']]
+        image_out['annotations'] = [annotations.get(image['id'])]
+        image_out['licenses'] = licenses.get(image['license'])
 
         with open('tmp/images/' + image['file_name'] + '.json', "w") as outfile:
             json_object = json.dumps(image_out, indent = 4)
