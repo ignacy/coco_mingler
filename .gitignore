@@ -1,3 +1,4 @@
 .env/
 coco_mingler/__pycache__
+tmp/
 

@@ -45,7 +45,7 @@ def main(argv=None):
 
     os.makedirs('tmp/images', exist_ok=True)
 
-    for image in data['images'][0:2]:
+    for image in data['images']:
         image_out = {}
         image_out['info'] = data['info']
         image_out['categories'] = data['categories']
