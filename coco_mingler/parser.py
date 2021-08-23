@@ -1,0 +1,16 @@
+from coco_mingler.exceptions import InvalidArgumentError
+
+import json, os
+
+class Parser:
+    def __init__(self, input_file_path):
+        if not os.path.isfile(input_file_path):
+            raise InvalidArgumentError(f"'{input_file_path}' is not a valid file path")
+        self.input_file_path = input_file_path
+
+    def parse(self):
+        with open(self.input_file_path, 'r') as coco_file:
+            data = coco_file.read()
+
+        return json.loads(data)
+        
