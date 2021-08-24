@@ -1,4 +1,8 @@
 .env/
 coco_mingler/__pycache__
 tmp/
+__pycache__/
+*.py[cod]
+*$py.class
+
 
