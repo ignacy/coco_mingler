@@ -23,18 +23,21 @@ def main(argv=None):
         int: command's return code
     """
     inputfile = ""
+    mergedir = OUTPUT_DIR
 
     try:
-        opts, _ = getopt.getopt(argv, "mhi:", ["ifile="])
+        opts, _ = getopt.getopt(argv, "m:hi:", ["ifile=", "mergedir="])
     except getopt.GetoptError:
-        print("bin/coco_mingler -i <inputfile>")
+        print("SPLIT: bin/coco_mingler -i <inputfile>")
+        print("MERGE: bin/coco_mingler -m")
         return 2
     for opt, arg in opts:
         if opt in ("-i", "--ifile"):
             inputfile = arg
-        elif opt == "-m":
+        elif opt in ("-m", "--mergedir"):
+            mergedir = arg
             print("Merging files into one COCO file")
-            Merge(OUTPUT_DIR).merge()
+            Merge(mergedir).merge()
             return 0
 
     data = {}
