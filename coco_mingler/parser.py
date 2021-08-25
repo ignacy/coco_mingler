@@ -1,4 +1,4 @@
-import json
+import orjson
 import os
 
 from coco_mingler.exceptions import InvalidArgumentError
@@ -15,4 +15,4 @@ class Parser:
         with open(self.input_file_path, "r") as coco_file:
             data = coco_file.read()
 
-        return json.loads(data)
+        return orjson.loads(data)

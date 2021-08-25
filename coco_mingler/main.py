@@ -1,5 +1,5 @@
 import getopt
-import json
+import orjson
 import logging
 import os
 
@@ -10,7 +10,7 @@ from coco_mingler.merge import Merge
 from coco_mingler.parser import Parser
 
 logger = logging.getLogger("COCO Mingler")
-
+OUTPUT_DIR = 'tmp/images/'
 
 def main(argv=None):
     """Run the coco_mingler command.
@@ -34,11 +34,10 @@ def main(argv=None):
             inputfile = arg
         elif opt == "-m":
             print("Merging files into one COCO file")
-            Merge("tmp/images").merge()
+            Merge(OUTPUT_DIR).merge()
             return 0
 
     data = {}
-
     try:
         data = Parser(inputfile).parse()
     except InvalidArgumentError as e:
@@ -50,20 +49,21 @@ def main(argv=None):
     annotations = Annotations(data["annotations"])
     licenses = Licenses(data["licenses"])
 
-    os.makedirs("tmp/images", exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
     for image in data["images"]:
-        image_out = {}
-        image_out["info"] = data["info"]
-        # TODO scrap unused categories
-        image_out["categories"] = data["categories"]
-        image_out["images"] = [image]
-        image_out["annotations"] = [annotations.get(image["id"])]
-        image_out["licenses"] = licenses.get(image["license"])
+        out_file_name = OUTPUT_DIR + image["file_name"] + ".json"
 
-        out_file_name = "tmp/images/" + image["file_name"] + ".json"
-        with open(out_file_name, "w") as outfile:
-            json_object = json.dumps(image_out, indent=4)
-            outfile.write(json_object)
+        # TODO scrap unused categories
+        image_out = {
+            "info": data["info"],
+            "categories": data["categories"],
+            "images": [image],
+            "annotations": [annotations.get(image["id"])],
+            "licenses": licenses.get(image["license"])
+        }
+
+        with open(out_file_name, "wb") as outfile:
+            outfile.write(orjson.dumps(image_out))
 
     return 0
