@@ -16,23 +16,21 @@ python -m tests
 2. To split COCO file into smaller ones:
 
 ```
-bin/coco_mingler -i <path>
+bin/coco_mingler -i <path> -o <outputdir>
 
 # Example:
 
-bin/coco_mingler -i data/instances_minitrain2017.json
+bin/coco_mingler -i data/instances_minitrain2017.json -o tmp/images
 ```
 
-Files will end up in `tmp/images`
+Files will end up in `tmp/images` if `-o` is not specified
 
 3. To merge files into one COCO file
 
 ```
-bin/coco_mingler -m <path_to_directory>
+bin/coco_mingler -m <path_to_directory> -o <outputfile>
 
 # Example:
 
-bin/coco_mingler -m tmp/images
+bin/coco_mingler -m tmp/images -o tmp/merged.json
 ```
-
-The merged file will be tmp/merged.json

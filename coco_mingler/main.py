@@ -25,23 +25,33 @@ def main(argv=None):
         int: command's return code
     """
     inputfile = ""
-    mergedir = OUTPUT_DIR
-    outpath = "tmp/merged.json"
+    mdir = OUTPUT_DIR
+    outpath = OUTPUT_DIR
+    split = True
 
     try:
-        opts, _ = getopt.getopt(argv, "m:hi:", ["ifile=", "mergedir="])
+        opts, _ = getopt.getopt(argv, "o:m:hi:", ["ifile=", "mdir=", "out="])
     except getopt.GetoptError:
-        print("SPLIT: bin/coco_mingler -i <inputfile>")
-        print("MERGE: bin/coco_mingler -m")
+        print("SPLIT: bin/coco_mingler -i <inputfile> -o <outputdir>")
+        print("MERGE: bin/coco_mingler -m <mdir> -o <outputpath>")
         return 2
     for opt, arg in opts:
         if opt in ("-i", "--ifile"):
             inputfile = arg
-        elif opt in ("-m", "--mergedir"):
-            mergedir = arg
-            print("Merging files into one COCO file")
-            Merge(mergedir, outpath).merge()
+        elif opt == "-h":
+            print("SPLIT: bin/coco_mingler -i <inputfile> -o <outputdir>")
+            print("MERGE: bin/coco_mingler -m <mdir> -o <outputpath>")
             return 0
+        elif opt in ("-o", "--out"):
+            outpath = arg
+        elif opt in ("-m", "--mdir"):
+            split = False
+            mdir = arg
+
+    if not split:
+        print("Merging files into one COCO file")
+        Merge(mdir, outpath).merge()
+        return 0
 
     data = {}
     try:
@@ -55,10 +65,10 @@ def main(argv=None):
     annotations = Annotations(data["annotations"])
     licenses = Licenses(data["licenses"])
 
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    os.makedirs(outpath, exist_ok=True)
 
     for image in data["images"]:
-        out_file_name = OUTPUT_DIR + image["file_name"] + ".json"
+        out_file_name = outpath + "/" + image["file_name"] + ".json"
 
         image_out = {
             "info": data["info"],
