@@ -26,6 +26,7 @@ def main(argv=None):
     """
     inputfile = ""
     mergedir = OUTPUT_DIR
+    outpath = "tmp/merged.json"
 
     try:
         opts, _ = getopt.getopt(argv, "m:hi:", ["ifile=", "mergedir="])
@@ -39,7 +40,7 @@ def main(argv=None):
         elif opt in ("-m", "--mergedir"):
             mergedir = arg
             print("Merging files into one COCO file")
-            Merge(mergedir).merge()
+            Merge(mergedir, outpath).merge()
             return 0
 
     data = {}

@@ -1,12 +1,14 @@
-import json
 import os
+
+import orjson
 
 from coco_mingler.parser import Parser
 
 
 class Merge:
-    def __init__(self, path):
+    def __init__(self, path, outpath):
         self.path = path
+        self.outpath = outpath
 
     def merge(self):
         out = {
@@ -25,6 +27,5 @@ class Merge:
                 out["annotations"].append(data["annotations"])
                 out["images"].append(data["images"])
 
-        with open("tmp/merged.json", "w") as outfile:
-            json_object = json.dumps(out, indent=4)
-            outfile.write(json_object)
+        with open(self.outpath, "wb") as outfile:
+            outfile.write(orjson.dumps(out))
