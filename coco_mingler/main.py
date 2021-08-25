@@ -1,7 +1,8 @@
 import getopt
-import orjson
 import logging
 import os
+
+import orjson
 
 from coco_mingler.annotations import Annotations
 from coco_mingler.exceptions import InvalidArgumentError
@@ -10,7 +11,8 @@ from coco_mingler.merge import Merge
 from coco_mingler.parser import Parser
 
 logger = logging.getLogger("COCO Mingler")
-OUTPUT_DIR = 'tmp/images/'
+OUTPUT_DIR = "tmp/images/"
+
 
 def main(argv=None):
     """Run the coco_mingler command.
@@ -63,7 +65,7 @@ def main(argv=None):
             "categories": data["categories"],
             "images": [image],
             "annotations": [annotations.get(image["id"])],
-            "licenses": licenses.get(image["license"])
+            "licenses": licenses.get(image["license"]),
         }
 
         with open(out_file_name, "wb") as outfile:

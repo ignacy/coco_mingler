@@ -1,5 +1,6 @@
-import orjson
 import os
+
+import orjson
 
 from coco_mingler.exceptions import InvalidArgumentError
 
