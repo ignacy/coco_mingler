@@ -60,7 +60,6 @@ def main(argv=None):
     for image in data["images"]:
         out_file_name = OUTPUT_DIR + image["file_name"] + ".json"
 
-        # TODO scrap unused categories
         image_out = {
             "info": data["info"],
             "categories": data["categories"],

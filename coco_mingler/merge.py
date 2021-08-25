@@ -11,6 +11,8 @@ class Merge:
         self.outpath = outpath
 
     def merge(self):
+        """Merge COCO files in path into one COCO file at outpath"""
+
         out = {
             "annotations": [],
             "images": [],
@@ -22,8 +24,8 @@ class Merge:
         for filename in os.scandir(self.path):
             if filename.is_file():
                 data = Parser(filename.path).parse()
-                out["info"] = data["info"]  # TODO: only needed once
-                out["categories"] = data["categories"]  # TODO: merge tree
+                out["info"] = data["info"]
+                out["categories"] = data["categories"]
                 out["annotations"].append(data["annotations"])
                 out["images"].append(data["images"])
 
