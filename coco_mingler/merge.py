@@ -18,7 +18,7 @@ class Merge:
             "images": [],
             "categories": [],
             "info": "",
-            "licenses": [],
+            "licenses": {},
         }
 
         for filename in os.scandir(self.path):
@@ -27,7 +27,11 @@ class Merge:
                 out["info"] = data["info"]
                 out["categories"] = data["categories"]
                 out["annotations"].extend(data["annotations"])
+                out["licenses"][data["licenses"]["id"]] = data["licenses"]
                 out["images"].extend(data["images"])
+
+        # Remove duplicated license records
+        out["licenses"] = list(out["licenses"].values())
 
         with open(self.outpath, "wb") as outfile:
             outfile.write(orjson.dumps(out))
