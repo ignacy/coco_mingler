@@ -26,8 +26,8 @@ class Merge:
                 data = Parser(filename.path).parse()
                 out["info"] = data["info"]
                 out["categories"] = data["categories"]
-                out["annotations"].append(data["annotations"])
-                out["images"].append(data["images"])
+                out["annotations"].extend(data["annotations"])
+                out["images"].extend(data["images"])
 
         with open(self.outpath, "wb") as outfile:
             outfile.write(orjson.dumps(out))
