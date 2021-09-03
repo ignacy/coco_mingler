@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# A hack using jq tool to compare 2 json files while disregarding array ordering
+# diff <(jq --sort-keys . data/instances_minitrain2017.json) <(jq --sort-keys . tmp/merged.json)
+
+# almost works but fails on the array ordering
+jd -set data/instances_minitrain2017.json tmp/merged.json
+
